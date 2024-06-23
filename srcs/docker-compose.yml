@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nginx:
-    build: ./srcs/requirements/nginx
+    build: ./requirements/nginx
     ports:
       - "443:443"
     environment:
