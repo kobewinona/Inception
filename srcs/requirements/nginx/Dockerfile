@@ -1,16 +1,19 @@
-FROM alpine:3.15
+FROM nginx:latest
 
-RUN apk add --no-cache nginx openssl
+# Install gettext package which provides envsubst
+RUN apt-get update && apt-get install -y gettext-base
 
-COPY ./conf /etc/nginx
+# Copy SSL certificates
+COPY ./tools/dklimkin.42.fr.crt /etc/ssl/certs/
+COPY ./tools/dklimkin.42.fr.key /etc/ssl/private/
 
-# Generate self-signed SSL certificate for simplicity
-RUN mkdir -p /etc/nginx/ssl && \
-	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-	-keyout /etc/nginx/ssl/nginx.key \
-	-out /etc/nginx/ssl/nginx.crt \
-	-subj "/C=US/ST=State/L=City/O=Organization/OU=Department/CN=localhost"
+# Copy the HTML files into the correct directory
+COPY ./public/html /var/www/html
 
+# Copy and process config file at runtime
+COPY ./conf/nginx.config /etc/nginx/conf.d/nginx.config.template
+
+# Document that the container listens on port 443
 EXPOSE 443
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD envsubst '$DOMAIN_NAME' < /etc/nginx/conf.d/nginx.config.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
