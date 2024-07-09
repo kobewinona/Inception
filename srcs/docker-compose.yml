@@ -2,8 +2,32 @@ version: '3.8'
 
 services:
   nginx:
-    build: ./requirements/nginx
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/tools/ssl/:/etc/nginx/ssl/
+      - ./public/html:/var/www/public/html
     ports:
+      - "80:80"
       - "443:443"
-    environment:
-      - DOMAIN_NAME=${DOMAIN_NAME}
+    restart: unless-stopped
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /dev/mariadb/inception/data
