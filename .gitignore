@@ -1,4 +1,8 @@
-# .env
+.env
+
+#IDE
+.idea
+.vs_code
 
 #misc
 .DS_Store

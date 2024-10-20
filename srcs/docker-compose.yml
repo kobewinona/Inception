@@ -65,10 +65,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /goinfre/dklimkin/docker-data/mariadb
+      device: /home/dklimkin/data/mariadb
   wordpress_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /goinfre/dklimkin/docker-data/wordpress
+      device: /home/dklimkin/data/wordpress
