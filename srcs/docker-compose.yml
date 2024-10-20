@@ -48,8 +48,7 @@ services:
       - ./requirements/tools/ssl/:/etc/nginx/ssl/
       - wordpress_data:/var/www/html
     ports:
-      - "80:80"
-      - "443:443"
+      - "8443:8443"
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     restart: unless-stopped
@@ -66,10 +65,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/dmitriklimkin/docker-data/mariadb
+      device: /goinfre/dklimkin/docker-data/mariadb
   wordpress_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/dmitriklimkin/docker-data/wordpress
+      device: /goinfre/dklimkin/docker-data/wordpress

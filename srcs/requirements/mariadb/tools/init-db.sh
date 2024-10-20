@@ -4,7 +4,7 @@
 envsubst < /var/www/createdb.sql > /var/www/createdb-final.sql
 
 # Start MySQL in safe mode in the background, but don't skip networking
-mysqld_safe --skip-networking &
+mysqld_safe &
 
 # Wait until MySQL is ready to accept connections
 until mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "status"; do
@@ -30,4 +30,4 @@ rm -f /var/www/createdb-final.sql
 mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
 
 # Finally, start mysqld_safe in the foreground to keep the container running
-exec mysqld_safe
+exec mysqld_safe --bind-address=0.0.0.0
