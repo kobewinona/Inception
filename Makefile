@@ -1,6 +1,6 @@
 .PHONY: all build up down re restart logs ps clean fclean
 
-name	= nginx
+name	= inception
 
 all: build up
 
@@ -15,6 +15,7 @@ up:
 down:
 	@echo "Stopping configuration ${name}..."
 	@docker-compose -f ./srcs/docker-compose.yml down
+	@docker-compose -f ./srcs/docker-compose.yml down --volumes
 
 re: down build
 	@echo "Rebuilding configuration ${name}..."
@@ -35,7 +36,7 @@ clean: down
 	@docker system prune -a --volumes -f
 
 fclean: clean
-	@echi "Deep cleaning configuration ${name}..."
-	@docker stop $$(docker ps -qa)
+	@echo "Deep cleaning configuration ${name}..."
+	@docker ps -qa | xargs -r docker stop
 	@docker network prune -f
 	@docker volume prune -f
