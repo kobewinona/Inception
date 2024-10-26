@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p /home/dklimkin/data/wordpress
+
 # Download and set up WordPress if not already installed
 if [ ! -f /var/www/html/wp-config.php ]; then
   echo "Downloading WordPress..."
