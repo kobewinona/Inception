@@ -1,6 +1,9 @@
 FROM debian:buster
 
 RUN apt-get update && apt-get install -y php php-cgi php-mysql php-fpm php-pdo php-gd php-cli php-mbstring wget curl
+RUN apt-get update && apt-get install -y default-mysql-client && rm -rf /var/lib/apt/lists/*
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 # Download and setup WordPress during build
 RUN mkdir -p /run/php /var/www/html && \
@@ -21,3 +24,4 @@ EXPOSE 9000
 ENTRYPOINT ["/usr/local/bin/init-wordpress.sh"]
 
 CMD ["php-fpm7.3", "-F"]
+

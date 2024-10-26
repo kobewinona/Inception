@@ -9,10 +9,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
+      - MYSQL_NAME=${MYSQL_NAME}
+      - MYSQL_USER_NAME=${MYSQL_USER_NAME}
+      - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     restart: always
     networks:
       - inception
@@ -29,10 +29,18 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - WORDPRESS_DB_HOST=${DB_HOST}
-      - WORDPRESS_DB_NAME=${DB_NAME}
-      - WORDPRESS_DB_USER=${DB_USER}
-      - WORDPRESS_DB_PASSWORD=${DB_PASSWORD}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - MYSQL_NAME=${MYSQL_NAME}
+      - DB_HOST=${DB_HOST}
+      - MYSQL_USER_NAME=${MYSQL_USER_NAME}
+      - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - WP_ADMIN_USER=${WP_ADMIN_USER}
+      - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+      - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
+      - WP_EDITOR_USER=${WP_EDITOR_USER}
+      - WP_EDITOR_EMAIL=${WP_EDITOR_EMAIL}
+      - WP_EDITOR_PASSWORD=${WP_EDITOR_PASSWORD}
     restart: always
     networks:
       - inception

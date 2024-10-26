@@ -1,14 +1,20 @@
 .PHONY: all build up down re restart logs ps clean fclean
 
-name	= inception
+name		= inception
+data_dir	= /home/dklimkin/data
 
 all: build up
 
-build:
+create_db_dirs:
+	@echo "creating persistent directories for databases..."
+	mkdir -p ${data_dir}/mariadb
+	mkdir -p ${data_dir}/wordpress
+
+build: create_db_dirs
 	@echo "Launching and building configuration ${name}..."
 	@docker-compose -f ./srcs/docker-compose.yml up -d --build
 
-up:
+up:	create_db_dirs
 	@echo "Stopping configuration ${name}..."
 	@docker-compose -f ./srcs/docker-compose.yml up -d
 
@@ -40,3 +46,5 @@ fclean: clean
 	@docker ps -qa | xargs -r docker stop
 	@docker network prune -f
 	@docker volume prune -f
+	rm -rf ${data_dir}/mariadb ${data_dir}/wordpress ${data_dir}
+

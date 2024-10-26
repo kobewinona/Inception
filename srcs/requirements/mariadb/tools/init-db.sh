@@ -13,14 +13,14 @@ until mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "status"; do
 done
 
 # Check if the database already exists, and create it if not
-DB_EXISTS=$(mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "SHOW DATABASES LIKE '${MYSQL_DATABASE}';" | grep "${MYSQL_DATABASE}")
+DB_EXISTS=$(mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "SHOW DATABASES LIKE '${MYSQL_NAME}';" | grep "${MYSQL_NAME}")
 
 if [ -z "$DB_EXISTS" ]; then
     # Run the generated SQL file if the database doesn't exist
     mysql -u root -p"${MYSQL_ROOT_PASSWORD}" < /var/www/createdb-final.sql
-    echo "Database ${MYSQL_DATABASE} and user ${MYSQL_USER} created."
+    echo "Database ${MYSQL_NAME} and user ${MYSQL_USER_NAME} created."
 else
-    echo "Database ${MYSQL_DATABASE} already exists. Skipping creation."
+    echo "Database ${MYSQL_NAME} already exists. Skipping creation."
 fi
 
 # Clean up the SQL file
@@ -31,3 +31,4 @@ mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
 
 # Finally, start mysqld_safe in the foreground to keep the container running
 exec mysqld_safe --bind-address=0.0.0.0
+
