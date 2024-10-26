@@ -15,22 +15,18 @@ if [ ! -f /var/www/html/wp-config.php ]; then
   echo "✓ WordPress is downloaded"
 
   echo "Configuring WordPress..."
-  # Configure wp-config.php with environment variables
-  sed -i "s/database_name_here/${MYSQL_NAME}/" /var/www/html/wp-config.php
-  sed -i "s/username_here/${MYSQL_USER_NAME}/" /var/www/html/wp-config.php
-  sed -i "s/password_here/${MYSQL_USER_PASSWORD}/" /var/www/html/wp-config.php
-  sed -i "s/localhost/${DB_HOST}/" /var/www/html/wp-config.php
-  echo "✓ Wordpress is configures"
+  wp config create \
+    --dbname="${MYSQL_NAME}" \
+    --dbuser="${MYSQL_USER_NAME}" \
+    --dbpass="${MYSQL_USER_PASSWORD}" \
+    --dbhost="${DB_HOST}" \
+    --path=/var/www/html \
+    --allow-root || { echo "Failed to create wp-config.php"; exit 1; }
+  echo "✓ WordPress configuration created"
 fi
 
 # Clean up sed temp files (if any are left over)
 find /var/www/html -type f -name "sed*" -exec rm -f {} \;
-
-# Set ownership for WordPress files
-echo "Setting ownership of WordPress files..."
-# chown -R www-data /var/www/html
-# chmod -R 775 /var/www/html
-# echo "✓ Ownership of WordPress files is set"
 
 # Run WordPress installation if not already installed
 if ! wp core is-installed --path=/var/www/html --allow-root; then
