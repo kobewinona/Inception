@@ -1,7 +1,5 @@
 #!/bin/bash
 
-mkdir -p /home/dklimkin/data/wordpress
-
 # Download and set up WordPress if not already installed
 if [ ! -f /var/www/html/wp-config.php ]; then
   echo "Downloading WordPress..."
@@ -21,6 +19,11 @@ fi
 
 # Clean up sed temp files (if any are left over)
 find /var/www/html -type f -name "sed*" -exec rm -f {} \;
+
+# Set ownership for WordPress files
+echo "Setting ownership of WordPress files..."
+chown -R www-data /var/www/html
+chmod -R 775 /var/www/htm
 
 # Start PHP-FPM
 exec "$@"

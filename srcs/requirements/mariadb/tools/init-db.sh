@@ -1,8 +1,5 @@
 #!/bin/bash
 
-mkdir -p /home/dklimkin/data
-mkdir -p /home/dklimkin/data/mariadb
-
 # Replace placeholders in the SQL file with environment variables
 envsubst < /var/www/createdb.sql > /var/www/createdb-final.sql
 
