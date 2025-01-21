@@ -56,7 +56,7 @@ services:
       - ./requirements/tools/ssl/:/etc/nginx/ssl/
       - wordpress_data:/var/www/html
     ports:
-      - "8443:8443"
+      - "443:443"
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     restart: unless-stopped

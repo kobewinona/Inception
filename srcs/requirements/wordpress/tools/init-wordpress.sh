@@ -32,7 +32,7 @@ find /var/www/html -type f -name "sed*" -exec rm -f {} \;
 if ! wp core is-installed --path=/var/www/html --allow-root; then
   echo "Installing WordPress..."
   wp core install \
-    --url="https://${DOMAIN_NAME}:8443" \
+    --url="https://${DOMAIN_NAME}" \
     --title="My WordPress Site" \
     --admin_user="${WP_ADMIN_USER}" \
     --admin_password="${WP_ADMIN_PASSWORD}" \

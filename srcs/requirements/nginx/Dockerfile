@@ -6,6 +6,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY conf/mynginx.conf /etc/nginx/conf.d/
 
-EXPOSE 80 443
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
